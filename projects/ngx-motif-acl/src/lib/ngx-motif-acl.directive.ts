@@ -1,5 +1,7 @@
+import { Observable } from 'rxjs/Observable';
 import { Directive, ElementRef, OnInit, OnDestroy, Input, Query } from '@angular/core';
 import * as _ from 'lodash';
+import { MotifACLService } from './ngx-motif-acl.service';
 
 const LOG_TAG = "[AclDirective] ";
 
@@ -8,17 +10,13 @@ const LOG_TAG = "[AclDirective] ";
 })
 export class AclDirective implements OnInit, OnDestroy {
 
-    @Input("motif-acl") actionList: Array<String> = [];
+    @Input("motif-acl") actionList: Array<string> = [];
     @Input("motif-acl-hidden") aclHidden: boolean = false; //hide the element (it will be only disabled if false)
 
     private _observer: MutationObserver;
     private _changesLock: boolean;
 
-    private curretACLList: Array<String> = [
-        "pippo", "pluto", "paperino", "minnie"
-    ]
-
-    constructor(private domElement: ElementRef) {
+    constructor(private domElement: ElementRef, private aclService:MotifACLService) {
     }
 
     ngOnInit(): void {
@@ -27,11 +25,11 @@ export class AclDirective implements OnInit, OnDestroy {
     }
 
     private observeForChanges() {
-        console.log(LOG_TAG + ">> observeForChanges called");
+        console.trace(LOG_TAG + "observeForChanges called");
         this._observer = new MutationObserver((mutations) => {
             if (!this._changesLock) {
                 this.processNodes();
-                console.log(LOG_TAG + ">> Mutations: ", mutations);
+                //console.trace(LOG_TAG + "Mutations: ", mutations);
             }
         });
 
@@ -43,17 +41,23 @@ export class AclDirective implements OnInit, OnDestroy {
 
     private processNodes() {
         this._changesLock = true;
-        if (!this.check()) {
+
+        this.can().subscribe((can:boolean)=>{
+          if (!can){
             this.domElement.nativeElement.setAttribute("acl-disabled", true);
             this.domElement.nativeElement.setAttribute("disabled", "");
             if (this.aclHidden){
                 this.domElement.nativeElement.style.display = "none";
             }
             this.disableInputs();
-        }
-        console.log(LOG_TAG + "Directive called for ", this.domElement);
-        console.log(LOG_TAG + "test:", this.actionList);
-        this._changesLock = false;
+            this._changesLock = false;
+          }
+        }, (error) =>{
+          console.error(LOG_TAG + "ProcessNodes error: ", error);
+          this._changesLock = false;
+        });
+        console.trace(LOG_TAG + "Directive called for ", this.domElement);
+        console.trace(LOG_TAG + "ActionList:", this.actionList);
     }
 
     disableInputs() {
@@ -66,7 +70,7 @@ export class AclDirective implements OnInit, OnDestroy {
 
     disableForSelector(selector: string) {
         let children = this.domElement.nativeElement.querySelectorAll(selector);
-        console.log(LOG_TAG + "disableForSelector " + selector + " :", children);
+        console.trace(LOG_TAG + "disableForSelector " + selector + " :", children);
         children.forEach(childElement => {
             childElement.setAttribute("disabled", "");
             childElement.setAttribute("acl-disabled", true);
@@ -79,8 +83,8 @@ export class AclDirective implements OnInit, OnDestroy {
     ngOnDestroy(): void {
     }
 
-    private check(): boolean {
-        return _.isEqual(_.intersection(this.curretACLList, this.actionList), this.actionList);
+    private can(): Observable<boolean> {
+      return this.aclService.can(this.actionList);
     }
 
 }
