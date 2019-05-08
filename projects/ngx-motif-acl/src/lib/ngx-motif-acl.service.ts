@@ -94,7 +94,7 @@ export class MotifACLService {
             return new Observable((observer)=>{
                 observer.next(this.canCached(action));
                 observer.complete();
-            }
+            });
         } else {
             return new Observable((observer)=>{
                 this.reloadPermissions().subscribe((results) => {
