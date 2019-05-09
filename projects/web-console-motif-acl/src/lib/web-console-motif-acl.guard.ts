@@ -10,7 +10,7 @@ const LOG_TAG = "[WebAdminACLGuard]"
 @Injectable({
   providedIn: 'root'
 })
-export class WebAdminACLGuard extends AbstractPluginValidator implements CanActivate, CanActivateChild {
+export class WebAdminMotifACLGuard extends AbstractPluginValidator implements CanActivate, CanActivateChild {
 
   constructor(private logger: NGXLogger,
     private pluginManager: WebConsolePluginManagerService,
