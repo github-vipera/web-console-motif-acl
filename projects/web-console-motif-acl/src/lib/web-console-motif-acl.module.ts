@@ -1,6 +1,6 @@
 import { MotifAclDirective } from './web-console-motif-acl.directive';
 import { NgModule } from '@angular/core';
-import { MotifACLService } from './ngx-motif-acl.service';
+import { MotifACLService } from './web-console-motif-acl.service';
 
 @NgModule({
     imports: [
