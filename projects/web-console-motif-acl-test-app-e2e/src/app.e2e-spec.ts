@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to ngx-motif-acl-test-app!');
+    expect(page.getTitleText()).toEqual('Welcome to web-console-motif-acl-test-app!');
   });
 
   afterEach(async () => {

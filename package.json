@@ -1,5 +1,5 @@
 {
-  "name": "ngx-motif-acl-library",
+  "name": "web-console-motif-acl-library",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,11 +8,11 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:app": "ng build ngx-motif-acl-test-app",
-    "build:app:prod": "ng build ngx-motif-acl-test-app --prod",
-    "build:lib": "ng build ngx-motif-acl",
-    "build:lib:prod": "ng build ngx-motif-acl --prod",
-    "run:app": "ng serve ngx-motif-acl-test-app"
+    "build:app": "ng build web-console-motif-acl-test-app",
+    "build:app:prod": "ng build web-console-motif-acl-test-app --prod",
+    "build:lib": "ng build web-console-motif-acl",
+    "build:lib:prod": "ng build web-console-motif-acl --prod",
+    "run:app": "ng serve web-console-motif-acl-test-app"
   },
   "private": true,
   "dependencies": {

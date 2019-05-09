@@ -1,4 +1,4 @@
-import { AclDirective } from './ngx-motif-acl.directive';
+import { MotifAclDirective } from './web-console-motif-acl.directive';
 import { NgModule } from '@angular/core';
 import { MotifACLService } from './ngx-motif-acl.service';
 
@@ -8,9 +8,9 @@ import { MotifACLService } from './ngx-motif-acl.service';
     entryComponents:[
     ],
     declarations: [
-        AclDirective
+      MotifAclDirective
     ],
-    exports: [ AclDirective ],
+    exports: [ MotifAclDirective ],
     providers: [
         MotifACLService
     ]
