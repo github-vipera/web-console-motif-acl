@@ -3,38 +3,38 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-motif-acl": {
-      "root": "projects/ngx-motif-acl",
-      "sourceRoot": "projects/ngx-motif-acl/src",
+    "web-console-motif-acl": {
+      "root": "projects/web-console-motif-acl",
+      "sourceRoot": "projects/web-console-motif-acl/src",
       "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/ngx-motif-acl/tsconfig.lib.json",
-            "project": "projects/ngx-motif-acl/ng-package.json"
+            "tsConfig": "projects/web-console-motif-acl/tsconfig.lib.json",
+            "project": "projects/web-console-motif-acl/ng-package.json"
           },
           "configurations": {
             "production" : {
-              "project": "projects/ngx-motif-acl/ng-package.prod.json"
+              "project": "projects/web-console-motif-acl/ng-package.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-motif-acl/src/test.ts",
-            "tsConfig": "projects/ngx-motif-acl/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-motif-acl/karma.conf.js"
+            "main": "projects/web-console-motif-acl/src/test.ts",
+            "tsConfig": "projects/web-console-motif-acl/tsconfig.spec.json",
+            "karmaConfig": "projects/web-console-motif-acl/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-motif-acl/tsconfig.lib.json",
-              "projects/ngx-motif-acl/tsconfig.spec.json"
+              "projects/web-console-motif-acl/tsconfig.lib.json",
+              "projects/web-console-motif-acl/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -43,9 +43,9 @@
         }
       }
     },
-    "ngx-motif-acl-test-app": {
-      "root": "projects/ngx-motif-acl-test-app/",
-      "sourceRoot": "projects/ngx-motif-acl-test-app/src",
+    "web-console-motif-acl-test-app": {
+      "root": "projects/web-console-motif-acl-test-app/",
+      "sourceRoot": "projects/web-console-motif-acl-test-app/src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {},
@@ -53,23 +53,23 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngx-motif-acl-test-app",
-            "index": "projects/ngx-motif-acl-test-app/src/index.html",
-            "main": "projects/ngx-motif-acl-test-app/src/main.ts",
-            "polyfills": "projects/ngx-motif-acl-test-app/src/polyfills.ts",
-            "tsConfig": "projects/ngx-motif-acl-test-app/tsconfig.app.json",
+            "outputPath": "dist/web-console-motif-acl-test-app",
+            "index": "projects/web-console-motif-acl-test-app/src/index.html",
+            "main": "projects/web-console-motif-acl-test-app/src/main.ts",
+            "polyfills": "projects/web-console-motif-acl-test-app/src/polyfills.ts",
+            "tsConfig": "projects/web-console-motif-acl-test-app/tsconfig.app.json",
             "assets": [
-              "projects/ngx-motif-acl-test-app/src/favicon.ico",
-              "projects/ngx-motif-acl-test-app/src/assets"
+              "projects/web-console-motif-acl-test-app/src/favicon.ico",
+              "projects/web-console-motif-acl-test-app/src/assets"
             ],
             "styles": [
-              "projects/ngx-motif-acl-test-app/src/styles.css",
-              "projects/ngx-motif-acl-test-app/src/assets/motif_webadmin_iconfont.css",
-              "projects/ngx-motif-acl-test-app/src/assets/style.css",
-              "projects/ngx-motif-acl-test-app/src/assets/wc-uikit-kendo.css",
-              "projects/ngx-motif-acl-test-app/src/assets/wc-uikit-toast.css",
-              "projects/ngx-motif-acl-test-app/src/assets/wc-uikit-dashboard.css",
-              "projects/ngx-motif-acl-test-app/src/assets/wc-uikit-primeng.css",
+              "projects/web-console-motif-acl-test-app/src/styles.css",
+              "projects/web-console-motif-acl-test-app/src/assets/motif_webadmin_iconfont.css",
+              "projects/web-console-motif-acl-test-app/src/assets/style.css",
+              "projects/web-console-motif-acl-test-app/src/assets/wc-uikit-kendo.css",
+              "projects/web-console-motif-acl-test-app/src/assets/wc-uikit-toast.css",
+              "projects/web-console-motif-acl-test-app/src/assets/wc-uikit-dashboard.css",
+              "projects/web-console-motif-acl-test-app/src/assets/wc-uikit-primeng.css",
 
             ],
             "scripts": [],
@@ -79,8 +79,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/ngx-motif-acl-test-app/src/environments/environment.ts",
-                  "with": "projects/ngx-motif-acl-test-app/src/environments/environment.prod.ts"
+                  "replace": "projects/web-console-motif-acl-test-app/src/environments/environment.ts",
+                  "with": "projects/web-console-motif-acl-test-app/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -105,35 +105,35 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-motif-acl-test-app:build",
+            "browserTarget": "web-console-motif-acl-test-app:build",
             "proxyConfig": "./proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-motif-acl-test-app:build:production"
+              "browserTarget": "web-console-motif-acl-test-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-motif-acl-test-app:build"
+            "browserTarget": "web-console-motif-acl-test-app:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-motif-acl-test-app/src/test.ts",
-            "polyfills": "projects/ngx-motif-acl-test-app/src/polyfills.ts",
-            "tsConfig": "projects/ngx-motif-acl-test-app/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-motif-acl-test-app/karma.conf.js",
+            "main": "projects/web-console-motif-acl-test-app/src/test.ts",
+            "polyfills": "projects/web-console-motif-acl-test-app/src/polyfills.ts",
+            "tsConfig": "projects/web-console-motif-acl-test-app/tsconfig.spec.json",
+            "karmaConfig": "projects/web-console-motif-acl-test-app/karma.conf.js",
             "styles": [
-              "projects/ngx-motif-acl-test-app/src/styles.css"
+              "projects/web-console-motif-acl-test-app/src/styles.css"
             ],
             "scripts": [],
             "assets": [
-              "projects/ngx-motif-acl-test-app/src/favicon.ico",
-              "projects/ngx-motif-acl-test-app/src/assets"
+              "projects/web-console-motif-acl-test-app/src/favicon.ico",
+              "projects/web-console-motif-acl-test-app/src/assets"
             ]
           }
         },
@@ -141,8 +141,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-motif-acl-test-app/tsconfig.app.json",
-              "projects/ngx-motif-acl-test-app/tsconfig.spec.json"
+              "projects/web-console-motif-acl-test-app/tsconfig.app.json",
+              "projects/web-console-motif-acl-test-app/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -151,27 +151,27 @@
         }
       }
     },
-    "ngx-motif-acl-test-app-e2e": {
-      "root": "projects/ngx-motif-acl-test-app-e2e/",
+    "web-console-motif-acl-test-app-e2e": {
+      "root": "projects/web-console-motif-acl-test-app-e2e/",
       "projectType": "application",
       "prefix": "",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/ngx-motif-acl-test-app-e2e/protractor.conf.js",
-            "devServerTarget": "ngx-motif-acl-test-app:serve"
+            "protractorConfig": "projects/web-console-motif-acl-test-app-e2e/protractor.conf.js",
+            "devServerTarget": "web-console-motif-acl-test-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngx-motif-acl-test-app:serve:production"
+              "devServerTarget": "web-console-motif-acl-test-app:serve:production"
             }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "projects/ngx-motif-acl-test-app-e2e/tsconfig.e2e.json",
+            "tsConfig": "projects/web-console-motif-acl-test-app-e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -180,5 +180,5 @@
       }
     }
   },
-  "defaultProject": "ngx-motif-acl"
+  "defaultProject": "web-console-motif-acl"
 }

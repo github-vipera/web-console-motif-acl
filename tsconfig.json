@@ -19,11 +19,11 @@
       "dom"
     ],
     "paths": {
-      "ngx-motif-acl": [
-        "dist/ngx-motif-acl"
+      "web-console-motif-acl": [
+        "dist/web-console-motif-acl"
       ],
-      "ngx-motif-acl/*": [
-        "dist/ngx-motif-acl/*"
+      "web-console-motif-acl/*": [
+        "dist/web-console-motif-acl/*"
       ]
     }
   }

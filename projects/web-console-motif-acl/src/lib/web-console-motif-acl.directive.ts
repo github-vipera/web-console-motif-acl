@@ -1,14 +1,14 @@
 import { Observable } from 'rxjs/Observable';
 import { Directive, ElementRef, OnInit, OnDestroy, Input, Query } from '@angular/core';
 import * as _ from 'lodash';
-import { MotifACLService } from './ngx-motif-acl.service';
+import { MotifACLService } from './web-console-motif-acl.service';
 
-const LOG_TAG = "[AclDirective] ";
+const LOG_TAG = "[MotifAclDirective] ";
 
 @Directive({
     selector: '[motif-acl]'
 })
-export class AclDirective implements OnInit, OnDestroy {
+export class MotifAclDirective implements OnInit, OnDestroy {
 
     @Input("motif-acl") actionList: Array<string> = [];
     @Input("motif-acl-hidden") aclHidden: boolean = false; //hide the element (it will be only disabled if false)
