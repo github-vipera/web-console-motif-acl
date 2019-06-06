@@ -6,7 +6,7 @@ import { WebAdminMotifACLGuard } from './web-console-motif-acl.guard';
 @NgModule({
     imports: [
     ],
-    entryComponents:[
+    entryComponents: [
     ],
     declarations: [
       MotifAclDirective
