@@ -1,7 +1,7 @@
 import { NGXLogger } from 'ngx-logger';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { MyselfService, Action } from '@wa-motif-open-api/auth-access-control-service'
+import { MyselfService, Permission } from '@wa-motif-open-api/auth-access-control-service';
 //import { NGXLogger, EventBusService } from 'web-console-core';
 import * as _ from 'lodash';
 
@@ -12,49 +12,44 @@ const LOG_TAG = '[MotifACLService]';
 })
 export class MotifACLService {
 
-    private _actions: Array<Action>;
-    private _permissions: Array<string> = [];
-    private _permissionsLoaded:boolean = false;
+    private permissions: Array<Permission> = [];
+    private permissionsLoaded = false;
 
     constructor(private logger: NGXLogger,
-        private myselfService:MyselfService) {
+                private myselfService: MyselfService) {
     }
 
     /**
      * Remove all cached permissions
      */
-    public flushPermissions():void{
-        this.logger.debug(LOG_TAG, 'Flushing permissions.');
-        this._actions = [];
-        this._permissions = [];
-        this._permissionsLoaded = false;
+    public purgePermissions(): void {
+        this.logger.debug(LOG_TAG, 'Purging permissions.');
+        this.permissions = [];
+        this.permissionsLoaded = false;
     }
 
-    public reloadPermissions(): Observable<Array<string>> {
+    public reloadPermissions(): Observable<Array<Permission>> {
         this.logger.debug(LOG_TAG, 'reloadPermissions called.');
-        this.flushPermissions();
+        this.purgePermissions();
         return new Observable((observer) => {
-            this.myselfService.getMyselfActions().subscribe( (actions:Array<Action>) => {
-                this.logger.debug(LOG_TAG, 'reloadPermissions results: ', actions);
-                this._permissions = [];
-                actions.forEach(action => {
-                    this._permissions.push(action.name);
-                });
-                this._permissionsLoaded = true;
-                observer.next(this._permissions);
+            this.myselfService.getMyselfPermissions().subscribe( (permissions: Array<Permission>) => {
+                this.logger.debug(LOG_TAG, 'reloadPermissions results: ', permissions);
+                this.permissions = permissions;
+                this.permissionsLoaded = true;
+                observer.next(permissions);
                 observer.complete();
             }, (error) => {
                 this.logger.error(LOG_TAG, 'reloadPermissions error: ', error);
-                this._permissionsLoaded = false;
+                this.permissionsLoaded = false;
                 observer.error(error);
             });
         });
     }
 
-    public getPermissions(): Observable<Array<string>> {
-        if (this.permissionsLoaded){
-            return new Observable((observer)=>{
-                observer.next(this._permissions);
+    public getPermissions(): Observable<Array<Permission>> {
+        if (this.permissionsLoaded) {
+            return new Observable((observer) => {
+                observer.next(this.permissions);
                 observer.complete();
             });
         } else {
@@ -62,43 +57,23 @@ export class MotifACLService {
         }
     }
 
-    public get permissionsLoaded():boolean {
-        return this._permissionsLoaded;
-    }
-
-    public getActions(): Observable<Array<Action>> {
-        if (this.permissionsLoaded){
-            return new Observable((observer)=>{
-                observer.next(this._actions);
-                observer.complete();
-            });
-        } else {
-            return new Observable((observer) => {
-                this.reloadPermissions().subscribe( (results)=>{
-                    observer.next(this._actions);
-                    observer.complete();
-                }, (error)=>{
-                    observer.error(error);
-                })
-            });
-        }
+    public get isPermissionsLoaded(): boolean {
+        return this.permissionsLoaded;
     }
 
     /**
      * Does current user have permission to do something?
-     *
-     * @param permission
      */
-    public can(action:string|string[]):Observable<boolean> {
+    public can(permission: string|string[]): Observable<boolean> {
         if (this.permissionsLoaded){
-            return new Observable((observer)=>{
-                observer.next(this.canCached(action));
+            return new Observable((observer) => {
+                observer.next(this.canCached(permission));
                 observer.complete();
             });
         } else {
-            return new Observable((observer)=>{
+            return new Observable((observer) => {
                 this.reloadPermissions().subscribe((results) => {
-                    observer.next(this.canCached(action));
+                    observer.next(this.canCached(permission));
                     observer.complete();
                 }, (error) => {
                     observer.error(error);
@@ -107,22 +82,27 @@ export class MotifACLService {
         }
     }
 
-    private canCached(action:string|string[]):boolean {
-        if (typeof action==='string'){
-            return this.isAuthorized(action);
+    private canCached(permission: string|string[]): boolean {
+        if (typeof permission === 'string') {
+            return this.isAuthorized(permission);
         } else {
-            return this.isAuthorizedForList(action);
+            return this.isAuthorizedForList(permission);
         }
     }
 
-    private isAuthorized(action: string): boolean {
-        return _.isEqual(_.intersection(this._permissions, [action]), [action]);
+    private isAuthorized(permission: string): boolean {
+      const permissionParts: Array<string> = _.split(permission, ':');
+      const component = permissionParts[0];
+      const action = permissionParts[1];
+      const target = permissionParts[2];
+      return _.some(this.permissions, (p: Permission) => {
+        return ((p.component === component || p.component === '*') &&
+                (p.action === action || p.action === '*') &&
+                (p.target === target || p.target === '*'));
+      });
     }
 
-    private isAuthorizedForList(actions: Array<string>): boolean {
-        return _.isEqual(_.intersection(this._permissions, actions), actions);
+    private isAuthorizedForList(permissions: Array<string>): boolean {
+      return _.every(permissions, (permission: string) => this.isAuthorized(permission));
     }
-
-
-
 }
