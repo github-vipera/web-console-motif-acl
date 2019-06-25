@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { Directive, ElementRef, OnInit, OnDestroy, Input, Query } from '@angular/core';
 import * as _ from 'lodash';
 import { MotifACLService } from './web-console-motif-acl.service';
+import { NGXLogger } from 'ngx-logger';
 
 const LOG_TAG = '[MotifAclDirective] ';
 
@@ -16,7 +17,9 @@ export class MotifAclDirective implements OnInit, OnDestroy {
     private _observer: MutationObserver;
     private _changesLock: boolean;
 
-    constructor(private domElement: ElementRef, private aclService: MotifACLService) {
+    constructor(private domElement: ElementRef,
+                private aclService: MotifACLService,
+                private logger: NGXLogger) {
     }
 
     ngOnInit(): void {
@@ -25,11 +28,11 @@ export class MotifAclDirective implements OnInit, OnDestroy {
     }
 
     private observeForChanges() {
-        console.trace(LOG_TAG + 'observeForChanges called');
+//        this.logger.trace(LOG_TAG + 'observeForChanges called');
         this._observer = new MutationObserver((mutations) => {
             if (!this._changesLock) {
                 this.processNodes();
-                //console.trace(LOG_TAG + 'Mutations: ', mutations);
+                //this.logger.trace(LOG_TAG + 'Mutations: ', mutations);
             }
         });
 
@@ -53,11 +56,11 @@ export class MotifAclDirective implements OnInit, OnDestroy {
             this._changesLock = false;
           }
         }, (error) => {
-          console.error(LOG_TAG + 'ProcessNodes error: ', error);
+          this.logger.error(LOG_TAG + 'ProcessNodes error: ', error);
           this._changesLock = false;
         });
-        console.trace(LOG_TAG + 'Directive called for ', this.domElement);
-        console.trace(LOG_TAG + 'ActionList:', this.actionList);
+//        this.logger.trace(LOG_TAG + 'Directive called for ', this.domElement);
+//        this.logger.trace(LOG_TAG + 'ActionList:', this.actionList);
     }
 
     disableInputs() {
@@ -70,7 +73,7 @@ export class MotifAclDirective implements OnInit, OnDestroy {
 
     disableForSelector(selector: string) {
         const children = this.domElement.nativeElement.querySelectorAll(selector);
-        console.trace(LOG_TAG + 'disableForSelector ' + selector + ' :', children);
+        //this.logger.trace(LOG_TAG + 'disableForSelector ' + selector + ' :', children);
         children.forEach(childElement => {
             childElement.setAttribute('disabled', '');
             childElement.setAttribute('acl-disabled', true);

@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import { MotifACLService } from './web-console-motif-acl.service';
 import { TEST_BASE_PATH, TEST_OAUTH2_BASE_PATH, TEST_USERNAME, TEST_PASSWORD } from '../test.variables';
 import { failTestWithError, failLogin } from '../test-helper';
-import { MyselfService, Configuration } from '@wa-motif-open-api/auth-access-control-service';
+import { PermissionsService, Configuration } from '@wa-motif-open-api/auth-access-control-service';
 
 describe('MotiAclService', () => {
     let authService: AuthService;
@@ -24,8 +24,8 @@ describe('MotiAclService', () => {
         const httpClient = TestBed.get(HttpClient);
         const logger: NGXLogger = TestBed.get(NGXLogger);
         authService = new AuthService(httpClient, TEST_OAUTH2_BASE_PATH, null, null, new EventBusService(logger), logger);
-        const myselfService = new MyselfService(httpClient, TEST_BASE_PATH, new Configuration());
-        service = new MotifACLService(logger, myselfService);
+        const permissionsService = new PermissionsService(httpClient, TEST_BASE_PATH, new Configuration());
+        service = new MotifACLService(logger, permissionsService);
 
         const p: Promise<any> = authService.login({ userName: TEST_USERNAME, password: TEST_PASSWORD }).toPromise();
         p.catch((error) => {
