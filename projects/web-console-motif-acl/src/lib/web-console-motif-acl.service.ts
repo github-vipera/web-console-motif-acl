@@ -1,7 +1,7 @@
 import { NGXLogger } from 'ngx-logger';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { MyselfService, Permission } from '@wa-motif-open-api/auth-access-control-service';
+import { PermissionsService, Permission } from '@wa-motif-open-api/auth-access-control-service';
 //import { NGXLogger, EventBusService } from 'web-console-core';
 import * as _ from 'lodash';
 
@@ -16,7 +16,7 @@ export class MotifACLService {
     private permissionsLoaded = false;
 
     constructor(private logger: NGXLogger,
-                private myselfService: MyselfService) {
+                private permissionsService: PermissionsService) {
     }
 
     /**
@@ -32,7 +32,7 @@ export class MotifACLService {
         this.logger.debug(LOG_TAG, 'reloadPermissions called.');
         this.purgePermissions();
         return new Observable((observer) => {
-            this.myselfService.getMyselfPermissions().subscribe( (permissions: Array<Permission>) => {
+            this.permissionsService.getMyselfPermissions().subscribe( (permissions: Array<Permission>) => {
                 this.logger.debug(LOG_TAG, 'reloadPermissions results: ', permissions);
                 this.permissions = permissions;
                 this.permissionsLoaded = true;
